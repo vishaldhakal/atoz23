@@ -1,0 +1,67 @@
+<!-- Optional JavaScript; choose one of the two! -->
+<div class="bgimg-1">
+     <div class="caption">
+          <img src="{% static '/logo.png' %}" alt="Logo" class="img-fluid loggg" />
+          <div class="form container mt-5">
+               <div class="card" style="max-width: 80rem">
+                    <div class="card-body bg-light rounded-2 p-2 p-md-4 px-4">
+                         <h3 class="btn btn-lg btn-mine text-white poss text-center">Please fill up the form</h3>
+                         <form class="pt-2" action="{% url 'register_customer' %}" method="POST">
+                              <h5 class="text-danger my-5">{{error}}</h5>
+                              {% csrf_token %}
+                              <div class="row row-cols-1 row-cols-md-2">
+                                   <div class="mb-3 col">
+                                        <label for="customerName" class="form-label">Customer name<span
+                                                  class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="customerName" name="customer_name"
+                                             required />
+                                   </div>
+
+                                   <!-- contact number -->
+                                   <div class="mb-3 col">
+                                        <label for="contactNumber" class="form-label">Contact number<span
+                                                  class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="contactNumber" name="phone_number"
+                                             required />
+                                   </div>
+
+                                   <!-- shop name -->
+                                   <div class="mb-3 col d-none">
+                                        <label for="shopName" class="form-label">Shop name<span
+                                                  class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="shopName" name="shop_name" required
+                                             value="A to Z" />
+                                   </div>
+
+                                   <!-- Product Name -->
+                                   <div class="mb-3 col">
+                                        <label for="productName" class="form-label">Product Name<span
+                                                  class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="productName" name="product_name"
+                                             required />
+                                   </div>
+
+                                   <!-- about campaign -->
+                                   <div class="mb-3 col">
+                                        <label for="aboutCampaign" class="mb-2">How you know about campaign
+                                             ?</label>
+                                        <select class="form-select py-3" aria-label="How you know about campaign ?"
+                                             id="aboutCampaign" name="how_know_about_campaign">
+                                             <option selected value="Facebook Ads">Facebook Ads</option>
+                                             <option value="Google Ads">Google Ads</option>
+                                             <option value="Retail Shop">Retail Shop</option>
+                                             <option value="Others">Others</option>
+                                        </select>
+                                   </div>
+                              </div>
+
+                              <!-- submit button -->
+                              <div class="d-flex justify-content-center pb-5 pt-3">
+                                   <input type="submit" class="btn btn-success btn-lg w-50" value="Submit"></input>
+                              </div>
+                         </form>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
