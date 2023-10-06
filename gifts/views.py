@@ -168,6 +168,8 @@ def registerCustomer(request):
                 offidlist = []
                 for offer in offers_all:
                     offidlist.append(offer.id)
+                if offidlist.count == 0:
+                    break
                 rand_idx = random.choice(offidlist)
                 getofff = Offers.objects.get(id=rand_idx)
                 if getofff.quantity > 0:
