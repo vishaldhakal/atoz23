@@ -168,34 +168,35 @@ def registerCustomer(request):
                 offidlist = []
                 for offer in offers_all:
                     offidlist.append(offer.id)
-                if offidlist.count == 0:
-                    break
-                rand_idx = random.choice(offidlist)
-                getofff = Offers.objects.get(id=rand_idx)
-                if getofff.quantity > 0:
-                    if getofff.type_of_offer == "After every certain sale":
-                        if (getofff.quantity > 0):
-                            """ Grant Gift """
-                            qty = getofff.quantity
-                            customer.gift = getofff.gift
-                            customer.save()
-                            getofff.quantity = qty - 1
-                            getofff.save()
-                            giftassign = True
-                            found = True
-                            break
-                    else:
-                        if (getofff.quantity > 0):
-                            """ Grant Gift """
-                            qty = getofff.quantity
-                            customer.gift = getofff.gift
-                            customer.save()
-                            getofff.quantity = qty - 1
-                            getofff.save()
-                            giftassign = True
-                            found = True
-                            break
-
+                try:
+                    rand_idx = random.choice(offidlist)
+                    getofff = Offers.objects.get(id=rand_idx)
+                    if getofff.quantity > 0:
+                        if getofff.type_of_offer == "After every certain sale":
+                            if (getofff.quantity > 0):
+                                """ Grant Gift """
+                                qty = getofff.quantity
+                                customer.gift = getofff.gift
+                                customer.save()
+                                getofff.quantity = qty - 1
+                                getofff.save()
+                                giftassign = True
+                                found = True
+                                break
+                        else:
+                            if (getofff.quantity > 0):
+                                """ Grant Gift """
+                                qty = getofff.quantity
+                                customer.gift = getofff.gift
+                                customer.save()
+                                getofff.quantity = qty - 1
+                                getofff.save()
+                                giftassign = True
+                                found = True
+                                break
+                except:
+                    pass
+                
         if not giftassign:
             weekly_offers = Offers.objects.filter(
                 date_valid__lte=today_date, date_valid__gte=today_date, type_of_offer="Weekly Offer"
