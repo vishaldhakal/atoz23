@@ -164,49 +164,50 @@ def registerCustomer(request):
         found = False
 
         if myoff == False:
-            if not giftassign:
-                weekly_offers = Offers.objects.filter(
-                    date_valid__lte=today_date, date_valid__gte=today_date, type_of_offer="Weekly Offer"
-                )
-
-                for offer in weekly_offers:
-                    if (get_sale_count + 1) in offer.sale_numbers and offer.quantity > 0:
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        giftassign = True
-                        break
-                    
             while found == False:
-                try:
-                    getofff = offers_all.order_by('?').first()
-                    if getofff.quantity > 0:
-                        if getofff.type_of_offer == "After every certain sale":
-                            if (getofff.quantity > 0):
-                                """ Grant Gift """
-                                qty = getofff.quantity
-                                customer.gift = getofff.gift
-                                customer.save()
-                                getofff.quantity = qty - 1
-                                getofff.save()
-                                giftassign = True
-                                found = True
-                                break
-                        else:
-                            if (getofff.quantity > 0 ):
-                                """ Grant Gift """
-                                qty = getofff.quantity
-                                customer.gift = getofff.gift
-                                customer.save()
-                                getofff.quantity = qty - 1
-                                getofff.save()
-                                giftassign = True
-                                found = True
-                                break
-                except:
-                    pass
+                offidlist = []
+                for offer in offers_all:
+                    offidlist.append(offer.id)
+                rand_idx = random.choice(offidlist)
+                getofff = Offers.objects.get(id=rand_idx)
+                if getofff.quantity > 0:
+                    if getofff.type_of_offer == "After every certain sale":
+                        if (getofff.quantity > 0):
+                            """ Grant Gift """
+                            qty = getofff.quantity
+                            customer.gift = getofff.gift
+                            customer.save()
+                            getofff.quantity = qty - 1
+                            getofff.save()
+                            giftassign = True
+                            found = True
+                            break
+                    else:
+                        if (getofff.quantity > 0):
+                            """ Grant Gift """
+                            qty = getofff.quantity
+                            customer.gift = getofff.gift
+                            customer.save()
+                            getofff.quantity = qty - 1
+                            getofff.save()
+                            giftassign = True
+                            found = True
+                            break
+
+        if not giftassign:
+            weekly_offers = Offers.objects.filter(
+                date_valid__lte=today_date, date_valid__gte=today_date, type_of_offer="Weekly Offer"
+            )
+
+            for offer in weekly_offers:
+                if (get_sale_count + 1) in offer.sale_numbers and offer.quantity > 0:
+                    qty = offer.quantity
+                    customer.gift = offer.gift
+                    customer.save()
+                    offer.quantity = qty - 1
+                    offer.save()
+                    giftassign = True
+                    break
 
         return render(request, "output.html", {"customer": customer, "giftassigned": giftassign})
     else:
