@@ -166,7 +166,7 @@ def registerCustomer(request):
         if not giftassign:
             for offer in Offers.objects.filter(date_valid=today_date,type_of_offer="After every certain sale"):
                 if offer.type_of_offer == "After every certain sale":
-                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0):
+                    if (((get_sale_count + 1) % int(offer.offer_condtion_value) == 0)) and (offer.quantity > 0):
                         qty = offer.quantity
                         customer.gift = offer.gift
                         customer.save()
@@ -175,7 +175,7 @@ def registerCustomer(request):
                         giftassign = True
                         break
                 if offer.type_of_offer == "At certain sale position":
-                    if ((get_sale_count + 1) == int(offer.offer_condition_value)) and (offer.quantity > 0):
+                    if ((get_sale_count + 1) == int(offer.offer_condtion_value)) and (offer.quantity > 0):
                         qty = offer.quantity
                         customer.gift = offer.gift
                         customer.save()
