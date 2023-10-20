@@ -64,24 +64,11 @@ def exportSummary(request):
 
     #Get the count of each of the gifts on each sales day along with ntc_recharge card, its amount and recharge_card
     writer = csv.writer(response)
-    writer.writecol(['Gift','Watch','Recharge Card [100]','Recharge Card [50]','Earphone','T800 Smart Watch','Dubai Tour','Gold Ring','Water Bottle','Ear Buds','X7 Watch','Baby Watch','Powerbank'])
-    for sales in saless:
-        """ Watch,Recharge Card [100],Recharge Card [50],Earphone,T800 Smart Watch,Dubai Tour,Gold Ring,Water Bottle,Ear Buds,X7 Watch,Baby Watch,Powerbank """
-
-        watch = Customer.objects.filter(gift__name="Watch",date_of_purchase=sales.date).count()
-        recharge_card_100 = Customer.objects.filter(gift__name="Recharge Card [100]",date_of_purchase=sales.date).count()
-        recharge_card_50 = Customer.objects.filter(gift__name="Recharge Card [50]",date_of_purchase=sales.date).count()
-        earphone = Customer.objects.filter(gift__name="Earphone",date_of_purchase=sales.date).count()
-        t800_smart_watch = Customer.objects.filter(gift__name="T800 Smart Watch",date_of_purchase=sales.date).count()
-        dubai_tour = Customer.objects.filter(gift__name="Dubai Tour",date_of_purchase=sales.date).count()
-        gold_ring = Customer.objects.filter(gift__name="Gold Ring",date_of_purchase=sales.date).count()
-        water_bottle = Customer.objects.filter(gift__name="Water Bottle",date_of_purchase=sales.date).count()
-        ear_buds = Customer.objects.filter(gift__name="Ear Buds",date_of_purchase=sales.date).count()
-        x7_watch = Customer.objects.filter(gift__name="X7 Watch",date_of_purchase=sales.date).count()
-        baby_watch = Customer.objects.filter(gift__name="Baby Watch",date_of_purchase=sales.date).count()
-        powerbank = Customer.objects.filter(gift__name="Powerbank",date_of_purchase=sales.date).count()
-
-        writer.writecol([sales.date,watch,recharge_card_100,recharge_card_50,earphone,t800_smart_watch,dubai_tour,gold_ring,water_bottle,ear_buds,x7_watch,baby_watch,powerbank])
+    writer.writerow(['Gift','Date','Count'])
+    giftsss = Gift.objects.all()
+    for gift in giftsss:
+        for sales in saless:
+            writer.writerow([gift.name,sales.date,Customer.objects.filter(gift=gift,date_of_purchase=sales.date).count()])
     return response
 
 
