@@ -66,8 +66,8 @@ def exportSummary(request):
     writer = csv.writer(response)
     writer.writerow(['Gift','Date','Count'])
     giftsss = Gift.objects.all()
-    for gift in giftsss:
-        for sales in saless:
+    for sales in saless:
+        for gift in giftsss:
             writer.writerow([gift.name,sales.date,Customer.objects.filter(gift=gift,date_of_purchase=sales.date).count()])
     return response
 
