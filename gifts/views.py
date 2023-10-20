@@ -64,7 +64,7 @@ def exportSummary(request):
 
     #Get the count of each of the gifts on each sales day along with ntc_recharge card, its amount and recharge_card
     writer = csv.writer(response)
-    writer.writerow(['date','Gift','count'])
+    writer.writecol(['Gift','Watch','Recharge Card [100]','Recharge Card [50]','Earphone','T800 Smart Watch','Dubai Tour','Gold Ring','Water Bottle','Ear Buds','X7 Watch','Baby Watch','Powerbank'])
     for sales in saless:
         """ Watch,Recharge Card [100],Recharge Card [50],Earphone,T800 Smart Watch,Dubai Tour,Gold Ring,Water Bottle,Ear Buds,X7 Watch,Baby Watch,Powerbank """
 
@@ -81,18 +81,7 @@ def exportSummary(request):
         baby_watch = Customer.objects.filter(gift__name="Baby Watch",date_of_purchase=sales.date).count()
         powerbank = Customer.objects.filter(gift__name="Powerbank",date_of_purchase=sales.date).count()
 
-        writer.writerow([sales.date,"Watch",watch])
-        writer.writerow([sales.date,"Recharge Card [100]",recharge_card_100])
-        writer.writerow([sales.date,"Recharge Card [50]",recharge_card_50])
-        writer.writerow([sales.date,"Earphone",earphone])
-        writer.writerow([sales.date,"T800 Smart Watch",t800_smart_watch])
-        writer.writerow([sales.date,"Dubai Tour",dubai_tour])
-        writer.writerow([sales.date,"Gold Ring",gold_ring])
-        writer.writerow([sales.date,"Water Bottle",water_bottle])
-        writer.writerow([sales.date,"Ear Buds",ear_buds])
-        writer.writerow([sales.date,"X7 Watch",x7_watch])
-        writer.writerow([sales.date,"Baby Watch",baby_watch])
-        writer.writerow([sales.date,"Powerbank",powerbank])
+        writer.writecol([sales.date,watch,recharge_card_100,recharge_card_50,earphone,t800_smart_watch,dubai_tour,gold_ring,water_bottle,ear_buds,x7_watch,baby_watch,powerbank])
     return response
 
 
