@@ -64,7 +64,7 @@ def exportSummary(request):
 
     #Get the count of each of the gifts on each sales day along with ntc_recharge card, its amount and recharge_card
     writer = csv.writer(response)
-    writer.writerow(['date','card_provider','amount','count'])
+    writer.writerow(['date','Gift','count'])
     for sales in saless:
         """ Watch,Recharge Card [100],Recharge Card [50],Earphone,T800 Smart Watch,Dubai Tour,Gold Ring,Water Bottle,Ear Buds,X7 Watch,Baby Watch,Powerbank """
 
