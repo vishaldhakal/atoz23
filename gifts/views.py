@@ -205,7 +205,25 @@ def registerCustomer(request):
             fix_offer.save()
 
         if not giftassign:
-            for offer in Offers.objects.filter(date_valid=today_date,type_of_offer="After every certain sale"):
+            # Find a weekly offer based on the number of sales
+            weekly_offers = Offers.objects.filter(
+                date_valid__lte=today_date,
+                date_valid__gte=today_date,
+                type_of_offer="Weekly Offer"
+            )
+
+            for offer in weekly_offers:
+                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
+                    qty = offer.quantity
+                    customer.gift = offer.gift
+                    customer.save()
+                    offer.quantity = qty - 1
+                    offer.save()
+                    giftassign = True
+                    break
+
+        if not giftassign:
+            for offer in Offers.objects.filter(date_valid=today_date):
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condtion_value) == 0)) and (offer.quantity > 0):
                         qty = offer.quantity
@@ -224,23 +242,6 @@ def registerCustomer(request):
                         offer.save()
                         giftassign = True
                         break
-
-        if not giftassign:
-            # Find a weekly offer based on the number of sales
-            weekly_offers = Offers.objects.filter(
-                date_valid__lte=today_date,
-                date_valid__gte=today_date,
-                type_of_offer="Weekly Offer",
-                sale_numbers__contains=[sale_today.sales_count + 1],
-                quantity__gt=0
-            ).first()
-
-            if weekly_offers:
-                customer.gift = weekly_offers.gift
-                customer.save()
-                weekly_offers.quantity -= 1
-                weekly_offers.save()
-                giftassign = True
 
         return render(request, "output.html", {"customer": customer, "giftassigned": giftassign})
     else:
