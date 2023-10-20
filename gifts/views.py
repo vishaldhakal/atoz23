@@ -199,7 +199,7 @@ def registerCustomer(request):
                     break
 
         if not giftassign:
-            for offer in Offers.objects.filter(date_valid=today_date):
+            for offer in Offers.objects.filter(date_valid=today_date).order_by('?'):
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condtion_value) == 0)) and (offer.quantity > 0):
                         qty = offer.quantity
