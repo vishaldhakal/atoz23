@@ -54,6 +54,47 @@ def uploadCustomer2(request):
     }
     return render(request, "index.html",ctx) """
 
+def exportSummary(request):
+    saless = Sales.objects.all()
+    
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="summary.csv"'
+
+    #Get the count of each of the gifts on each sales day along with ntc_recharge card, its amount and recharge_card
+    writer = csv.writer(response)
+    writer.writerow(['date','card_provider','amount','count'])
+    for sales in saless:
+        """ Watch,Recharge Card [100],Recharge Card [50],Earphone,T800 Smart Watch,Dubai Tour,Gold Ring,Water Bottle,Ear Buds,X7 Watch,Baby Watch,Powerbank """
+
+        watch = Customer.objects.filter(gift__name="Watch",date_of_purchase=sales.date).count()
+        recharge_card_100 = Customer.objects.filter(gift__name="Recharge Card [100]",date_of_purchase=sales.date).count()
+        recharge_card_50 = Customer.objects.filter(gift__name="Recharge Card [50]",date_of_purchase=sales.date).count()
+        earphone = Customer.objects.filter(gift__name="Earphone",date_of_purchase=sales.date).count()
+        t800_smart_watch = Customer.objects.filter(gift__name="T800 Smart Watch",date_of_purchase=sales.date).count()
+        dubai_tour = Customer.objects.filter(gift__name="Dubai Tour",date_of_purchase=sales.date).count()
+        gold_ring = Customer.objects.filter(gift__name="Gold Ring",date_of_purchase=sales.date).count()
+        water_bottle = Customer.objects.filter(gift__name="Water Bottle",date_of_purchase=sales.date).count()
+        ear_buds = Customer.objects.filter(gift__name="Ear Buds",date_of_purchase=sales.date).count()
+        x7_watch = Customer.objects.filter(gift__name="X7 Watch",date_of_purchase=sales.date).count()
+        baby_watch = Customer.objects.filter(gift__name="Baby Watch",date_of_purchase=sales.date).count()
+        powerbank = Customer.objects.filter(gift__name="Powerbank",date_of_purchase=sales.date).count()
+
+        writer.writerow([sales.date,"Watch",watch])
+        writer.writerow([sales.date,"Recharge Card [100]",recharge_card_100])
+        writer.writerow([sales.date,"Recharge Card [50]",recharge_card_50])
+        writer.writerow([sales.date,"Earphone",earphone])
+        writer.writerow([sales.date,"T800 Smart Watch",t800_smart_watch])
+        writer.writerow([sales.date,"Dubai Tour",dubai_tour])
+        writer.writerow([sales.date,"Gold Ring",gold_ring])
+        writer.writerow([sales.date,"Water Bottle",water_bottle])
+        writer.writerow([sales.date,"Ear Buds",ear_buds])
+        writer.writerow([sales.date,"X7 Watch",x7_watch])
+        writer.writerow([sales.date,"Baby Watch",baby_watch])
+        writer.writerow([sales.date,"Powerbank",powerbank])
+    return response
+
 
 def downloadData(request):
     # Get all data from UserDetail Databse Table
