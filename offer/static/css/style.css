@@ -20,6 +20,10 @@ html {
   margin: 0;
   color: rgb(0, 0, 0);
 }
+.centerr{
+  margin-left: auto;
+  margin-right: auto;
+}
 *{
   font-family: 'Vivo' !important;
   font-weight: normal;
@@ -72,7 +76,7 @@ html {
 .caption {
   position: absolute;
   left: 0;
-  top: 1%;
+  top: 0%;
   width: 100%;
   text-align: center;
   color: #000;
