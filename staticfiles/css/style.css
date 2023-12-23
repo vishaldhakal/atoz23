@@ -355,3 +355,8 @@ canvas {
   transition: all 1.5s;
   backface-visibility: hidden;
 }
+.maxw{
+  max-width: 700px;
+  margin-left:auto ;
+  margin-right:auto ;
+}
