@@ -129,16 +129,6 @@ def registerCustomer(request):
         product_name = request.POST.get("product_name")
         how_know_about_campaign = request.POST.get("how_know_about_campaign")
 
-        required_fields = ["customer_name", "phone_number", "shop_name", "product_name", "how_know_about_campaign"]
-        for field in required_fields:
-            if field not in request.POST or not request.POST[field]:
-                return render(request, "error.html", {"message": f"Missing or empty value for {field}."})
-
-        # Validate phone_number format
-        phone_number = request.POST.get("phone_number")
-        if not re.match(r'^\d{10}$', phone_number):
-            return render(request, "error.html", {"message": "Invalid phone number format."})
-
         # Check if the customer already exists
         existing_customer = Customer.objects.filter(phone_number=contact_number).first()
 
