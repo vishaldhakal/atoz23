@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from transformers import AutoModel, AutoTokenizer
 import torch
 
-model_name = "l3cube-pune/indic-sentence-similarity-sbert"
+model_name = "syubraj/sentence_similarity_nepali"
 model = AutoModel.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -84,13 +84,13 @@ def check_similarity(request):
         voice_inputs = tokenizer(voice_text, return_tensors="pt")
 
         # Get the model output (embedding)
-        model_output = model(**voice_inputs).pooler_output
+        model_output = model(**voice_inputs).logits
 
         # Calculate similarity scores
         similarity_scores = []
         for sentence in sentence_array:
             sentence_inputs = tokenizer(sentence, return_tensors="pt")
-            sentence_output = model(**sentence_inputs).pooler_output
+            sentence_output = model(**sentence_inputs).logits
 
             # You might want to use a different score if the model provides one
             similarity_score = torch.nn.functional.cosine_similarity(model_output, sentence_output).item()
